@@ -1,0 +1,63 @@
+CREATE DATABASE CollegeDB;
+USE CollegeDB;
+
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Name VARCHAR(30),
+    Department VARCHAR(20),
+    Marks INT,
+    Age INT
+);
+
+INSERT INTO Student VALUES
+(101, 'Arun', 'IT', 85, 19),
+(102, 'Bala', 'CSE', 78, 20),
+(103, 'Divya', 'IT', 92, 19),
+(104, 'Hari', 'ECE', 68, 21),
+(105, 'Priya', 'CSE', 88, 20);
+
+-- SIMPLE QUERIES
+SELECT * FROM Student;
+
+SELECT * FROM Student
+WHERE Department = 'IT';
+
+SELECT Name, Marks
+FROM Student
+WHERE Marks > 80;
+
+-- NESTED QUERIES
+SELECT Name, Marks
+FROM Student
+WHERE Marks > (SELECT AVG(Marks) FROM Student);
+
+SELECT Name, Marks
+FROM Student
+WHERE Marks = (SELECT MAX(Marks) FROM Student);
+
+SELECT Name, Department
+FROM Student
+WHERE Department = (
+    SELECT Department
+    FROM Student
+    WHERE Name = 'Arun'
+);
+
+-- SUB QUERY USING IN
+SELECT Name, Department
+FROM Student
+WHERE Department IN (
+    SELECT Department
+    FROM Student
+    WHERE Marks > 90
+);
+
+-- SUB QUERY USING EXISTS
+SELECT Name, Department
+FROM Student S
+WHERE EXISTS (
+    SELECT *
+    FROM Student
+    WHERE Department = S.Department
+    AND Marks > 90
+);
