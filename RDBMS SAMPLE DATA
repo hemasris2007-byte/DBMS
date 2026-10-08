@@ -1,0 +1,70 @@
+CREATE DATABASE CollegeDB;
+USE CollegeDB;
+
+-- DEPARTMENT TABLE
+CREATE TABLE Department (
+    Dept_ID INT PRIMARY KEY,
+    Dept_Name VARCHAR(30)
+);
+
+-- STUDENT TABLE
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Student_Name VARCHAR(30),
+    Dept_ID INT,
+    FOREIGN KEY (Dept_ID) REFERENCES Department(Dept_ID)
+);
+
+-- COURSE TABLE
+CREATE TABLE Course (
+    Course_ID INT PRIMARY KEY,
+    Course_Name VARCHAR(50),
+    Credits INT
+);
+
+-- ENROLLMENT TABLE
+CREATE TABLE Enrollment (
+    Student_ID INT,
+    Course_ID INT,
+    Marks INT,
+    PRIMARY KEY (Student_ID, Course_ID),
+    FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID),
+    FOREIGN KEY (Course_ID) REFERENCES Course(Course_ID)
+);
+
+-- INSERT SAMPLE DATA
+
+INSERT INTO Department VALUES
+(1, 'IT'),
+(2, 'CSE'),
+(3, 'ECE');
+
+INSERT INTO Student VALUES
+(101, 'Arun', 1),
+(102, 'Bala', 2),
+(103, 'Divya', 1),
+(104, 'Hari', 3),
+(105, 'Priya', 2);
+
+INSERT INTO Course VALUES
+(201, 'DBMS', 4),
+(202, 'Java', 3),
+(203, 'Python', 4),
+(204, 'Computer Networks', 3);
+
+INSERT INTO Enrollment VALUES
+(101, 201, 85),
+(101, 202, 90),
+(102, 201, 78),
+(102, 203, 82),
+(103, 201, 92),
+(103, 204, 88),
+(104, 202, 75),
+(105, 203, 89);
+
+-- DISPLAY TABLES
+
+SELECT * FROM Department;
+SELECT * FROM Student;
+SELECT * FROM Course;
+SELECT * FROM Enrollment;
