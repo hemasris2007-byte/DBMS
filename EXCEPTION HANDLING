@@ -1,0 +1,33 @@
+CREATE TABLE Employee (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(30),
+    Salary NUMBER
+);
+
+INSERT INTO Employee VALUES (101, 'Arun', 40000);
+INSERT INTO Employee VALUES (102, 'Bala', 50000);
+INSERT INTO Employee VALUES (103, 'Divya', 60000);
+
+-- PL/SQL PROGRAM FOR EXCEPTION HANDLING
+
+DECLARE
+    V_Salary Employee.Salary%TYPE;
+BEGIN
+    SELECT Salary
+    INTO V_Salary
+    FROM Employee
+    WHERE Emp_ID = 105;
+
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || V_Salary);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee not found');
+
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('More than one employee found');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred');
+END;
+/
