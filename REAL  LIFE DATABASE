@@ -1,0 +1,71 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class StudentDatabase {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            // Database Connection
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/CollegeDB",
+                "root",
+                "root"
+            );
+
+            // Insert Student Details
+            System.out.print("Enter Student ID: ");
+            int id = sc.nextInt();
+
+            System.out.print("Enter Student Name: ");
+            String name = sc.next();
+
+            System.out.print("Enter Department: ");
+            String dept = sc.next();
+
+            System.out.print("Enter Marks: ");
+            int marks = sc.nextInt();
+
+            String sql = "INSERT INTO Student VALUES (?, ?, ?, ?)";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            ps.setString(3, dept);
+            ps.setInt(4, marks);
+
+            ps.executeUpdate();
+
+            System.out.println("Student record inserted successfully.");
+
+            // Display Student Records
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery("SELECT * FROM Student");
+
+            System.out.println("\nStudent Records:");
+            System.out.println("ID\tName\tDepartment\tMarks");
+
+            while (rs.next()) {
+                System.out.println(
+                    rs.getInt("Student_ID") + "\t" +
+                    rs.getString("Name") + "\t" +
+                    rs.getString("Department") + "\t\t" +
+                    rs.getInt("Marks")
+                );
+            }
+
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println("Database Connection Error: " + e);
+        }
+
+        sc.close();
+    }
+}
