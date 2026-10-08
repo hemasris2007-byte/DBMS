@@ -1,0 +1,56 @@
+CREATE DATABASE JoinDB;
+USE JoinDB;
+
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Name VARCHAR(30),
+    Department_ID INT,
+    Marks INT
+);
+
+CREATE TABLE Department (
+    Department_ID INT PRIMARY KEY,
+    Department_Name VARCHAR(30)
+);
+
+INSERT INTO Department VALUES
+(1, 'IT'),
+(2, 'CSE'),
+(3, 'ECE');
+
+INSERT INTO Student VALUES
+(101, 'Arun', 1, 85),
+(102, 'Bala', 2, 78),
+(103, 'Divya', 1, 92),
+(104, 'Hari', 3, 68),
+(105, 'Priya', 2, 88);
+
+-- INNER JOIN
+SELECT Student.Name, Department.Department_Name, Student.Marks
+FROM Student
+INNER JOIN Department
+ON Student.Department_ID = Department.Department_ID;
+
+-- LEFT JOIN
+SELECT Student.Name, Department.Department_Name
+FROM Student
+LEFT JOIN Department
+ON Student.Department_ID = Department.Department_ID;
+
+-- RIGHT JOIN
+SELECT Student.Name, Department.Department_Name
+FROM Student
+RIGHT JOIN Department
+ON Student.Department_ID = Department.Department_ID;
+
+-- CROSS JOIN
+SELECT Student.Name, Department.Department_Name
+FROM Student
+CROSS JOIN Department;
+
+-- SELF JOIN
+SELECT S1.Name AS Student1, S2.Name AS Student2
+FROM Student S1
+JOIN Student S2
+ON S1.Department_ID = S2.Department_ID
+WHERE S1.Student_ID < S2.Student_ID;
