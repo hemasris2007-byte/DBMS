@@ -1,0 +1,54 @@
+CREATE TABLE Employee (
+    Emp_ID NUMBER PRIMARY KEY,
+    Emp_Name VARCHAR2(30),
+    Salary NUMBER
+);
+
+INSERT INTO Employee VALUES (101, 'Arun', 40000);
+INSERT INTO Employee VALUES (102, 'Bala', 50000);
+INSERT INTO Employee VALUES (103, 'Divya', 60000);
+
+-- PROCEDURE
+
+CREATE OR REPLACE PROCEDURE Display_Employee
+IS
+BEGIN
+    FOR E IN (SELECT * FROM Employee)
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            'ID: ' || E.Emp_ID ||
+            ' Name: ' || E.Emp_Name ||
+            ' Salary: ' || E.Salary
+        );
+    END LOOP;
+END;
+/
+
+EXEC Display_Employee;
+
+
+-- FUNCTION
+
+CREATE OR REPLACE FUNCTION Get_Salary
+(
+    P_Emp_ID NUMBER
+)
+RETURN NUMBER
+IS
+    V_Salary NUMBER;
+BEGIN
+    SELECT Salary
+    INTO V_Salary
+    FROM Employee
+    WHERE Emp_ID = P_Emp_ID;
+
+    RETURN V_Salary;
+END;
+/
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(
+        'Salary: ' || Get_Salary(101)
+    );
+END;
+/
