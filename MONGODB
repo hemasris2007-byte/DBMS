@@ -1,0 +1,66 @@
+// INSTALL AND SET UP MONGODB
+// INSERT, UPDATE AND QUERY DATA
+
+// Create / Select Database
+use CollegeDB
+
+// Create Collection and Insert Documents
+db.Student.insertMany([
+    {
+        Student_ID: 101,
+        Name: "Arun",
+        Department: "IT",
+        Marks: 85
+    },
+    {
+        Student_ID: 102,
+        Name: "Bala",
+        Department: "CSE",
+        Marks: 78
+    },
+    {
+        Student_ID: 103,
+        Name: "Divya",
+        Department: "IT",
+        Marks: 92
+    },
+    {
+        Student_ID: 104,
+        Name: "Hari",
+        Department: "ECE",
+        Marks: 68
+    }
+])
+
+// Display All Documents
+db.Student.find()
+
+// Query Students from IT Department
+db.Student.find({Department: "IT"})
+
+// Query Students with Marks Greater Than 80
+db.Student.find({Marks: {$gt: 80}})
+
+// Update Student Marks
+db.Student.updateOne(
+    {Student_ID: 101},
+    {$set: {Marks: 90}}
+)
+
+// Update Department
+db.Student.updateOne(
+    {Student_ID: 102},
+    {$set: {Department: "IT"}}
+)
+
+// Display Updated Records
+db.Student.find()
+
+// Query Specific Fields
+db.Student.find(
+    {},
+    {Name: 1, Department: 1, Marks: 1, _id: 0}
+)
+
+// Sort Students by Marks
+db.Student.find().sort({Marks: -1})
