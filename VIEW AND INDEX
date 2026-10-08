@@ -1,0 +1,42 @@
+CREATE DATABASE LargeDB;
+USE LargeDB;
+
+CREATE TABLE Employee (
+    Employee_ID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Department VARCHAR(30),
+    Salary DECIMAL(10,2),
+    City VARCHAR(30)
+);
+
+INSERT INTO Employee VALUES
+(101, 'Arun', 'IT', 45000, 'Chennai'),
+(102, 'Bala', 'CSE', 50000, 'Madurai'),
+(103, 'Divya', 'IT', 55000, 'Chennai'),
+(104, 'Hari', 'ECE', 40000, 'Coimbatore'),
+(105, 'Priya', 'CSE', 60000, 'Chennai');
+
+-- CREATE VIEW
+CREATE VIEW Employee_View AS
+SELECT Employee_ID, Name, Department, Salary
+FROM Employee;
+
+-- DISPLAY VIEW
+SELECT * FROM Employee_View;
+
+-- CREATE INDEX
+CREATE INDEX idx_department
+ON Employee(Department);
+
+CREATE INDEX idx_salary
+ON Employee(Salary);
+
+-- DISPLAY RECORDS USING INDEXED COLUMN
+SELECT * FROM Employee
+WHERE Department = 'IT';
+
+SELECT * FROM Employee
+WHERE Salary > 50000;
+
+-- DROP INDEX
+DROP INDEX idx_salary ON Employee;
