@@ -1,0 +1,38 @@
+// CONNECT TO MONGOS
+mongosh --port 27017
+
+// ADD SHARDS
+sh.addShard("shardRS1/localhost:27018")
+sh.addShard("shardRS2/localhost:27020")
+
+// ENABLE SHARDING
+sh.enableSharding("CollegeDB")
+
+// CREATE DATABASE
+use CollegeDB
+
+// CREATE COLLECTION
+db.Student.insertMany([
+    {Student_ID: 101, Name: "Arun", Department: "IT", Marks: 85},
+    {Student_ID: 102, Name: "Bala", Department: "CSE", Marks: 78},
+    {Student_ID: 103, Name: "Divya", Department: "IT", Marks: 92},
+    {Student_ID: 104, Name: "Hari", Department: "ECE", Marks: 68}
+])
+
+// CREATE INDEX FOR SHARDING
+db.Student.createIndex({Student_ID: 1})
+
+// SHARD THE COLLECTION
+sh.shardCollection(
+    "CollegeDB.Student",
+    {Student_ID: 1}
+)
+
+// RETRIEVE DATA
+db.Student.find()
+
+// QUERY DATA
+db.Student.find({Department: "IT"})
+
+// DISPLAY SHARD STATUS
+sh.status()
