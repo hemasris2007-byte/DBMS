@@ -1,0 +1,49 @@
+
+import sqlite3
+
+# Connect to database
+con = sqlite3.connect("college.db")
+cur = con.cursor()
+
+# Create table
+cur.execute("""
+CREATE TABLE IF NOT EXISTS Student(
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    mark INTEGER
+)
+""")
+con.commit()
+
+# Insert records
+cur.execute(
+    "INSERT OR REPLACE INTO Student VALUES (1, 'Arun', 85)"
+)
+con.commit()
+print("COMMIT: Record saved successfully.")
+
+# Create SAVEPOINT
+cur.execute("SAVEPOINT sp1")
+
+cur.execute(
+    "INSERT OR REPLACE INTO Student VALUES (2, 'Bala', 90)"
+)
+print("SAVEPOINT: Checkpoint created.")
+
+# Rollback to SAVEPOINT
+cur.execute("ROLLBACK TO sp1")
+cur.execute("RELEASE sp1")
+con.commit()
+print("ROLLBACK: Changes after savepoint undone.")
+
+# Display records
+cur.execute("SELECT * FROM Student")
+print("\nStudent Records:")
+for row in cur.fetchall():
+    print(row)
+
+# GRANT and REVOKE demonstration
+print("\nGRANT and REVOKE are not supported by SQLite.")
+print("Use a database such as MySQL to execute these commands.")
+
+con.close()
