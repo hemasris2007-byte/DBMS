@@ -1,0 +1,50 @@
+
+import sqlite3
+
+# Connect to database
+con = sqlite3.connect("college.db")
+cur = con.cursor()
+
+# Create table
+cur.execute("""
+CREATE TABLE IF NOT EXISTS Student(
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    mark INTEGER
+)
+""")
+
+# Insert data dynamically
+sid = int(input("Enter Student ID: "))
+name = input("Enter Student Name: ")
+mark = int(input("Enter Mark: "))
+
+cur.execute(
+    "INSERT INTO Student VALUES (?, ?, ?)",
+    (sid, name, mark)
+)
+con.commit()
+
+# Display records
+print("\nStudent Records:")
+cur.execute("SELECT * FROM Student")
+
+for row in cur.fetchall():
+    print(row)
+
+# Update mark dynamically
+new_mark = int(input("\nEnter new mark: "))
+cur.execute(
+    "UPDATE Student SET mark = ? WHERE id = ?",
+    (new_mark, sid)
+)
+con.commit()
+
+print("Record updated successfully.")
+
+# Display updated record
+cur.execute("SELECT * FROM Student WHERE id = ?", (sid,))
+print(cur.fetchone())
+
+# Close connection
+con.close()
